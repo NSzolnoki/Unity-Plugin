@@ -104,7 +104,7 @@ You can use this component to get data.
 <p align="center">
 <img src="resources/str_sync.png" />
 </p>    
-**Note** : Retrieving data from Gridly is only for project development. This feature **cannot** be used for public objects.
+**Note** : Retrieving data from Gridly should be performed in a development/staging environment. Updating live/public objects is not recommended.
 
 ### 4.3 Translate text
 + Use the following **void** to set your target language  
