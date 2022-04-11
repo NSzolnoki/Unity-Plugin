@@ -18,7 +18,7 @@ namespace Gridly.Internal
         public static string ver = "V1";
         public const int LanguagesLeng = 146;
     }
-    
+
 
     public partial class GridlyEditor : EditorWindow
     {
@@ -36,7 +36,7 @@ namespace Gridly.Internal
 
 
                 m_logo = (Texture2D)Resources.Load("Gridly_Icon", typeof(Texture2D));
-                
+
 
                 Style_ToolBarButton_Big = new GUIStyle(EditorStyles.toolbarButton);
                 Style_ToolBarButton_Big.fixedHeight = Style_ToolBarButton_Big.fixedHeight * 1.5f;
@@ -145,29 +145,35 @@ namespace Gridly.Internal
             viewID = "";
             List<string> columns = new List<string>();
 
+
             foreach (var i in Project.singleton.grids)
             {
                 viewID = i.choesenViewID;
 
             }
 
-            await GridlyFunctionEditor.getGridlyColumnIds(viewID);
-
-
-
-            Assets.Gridly.Internal.Scripts.GirldyView.View gridlyView = JsonConvert.DeserializeObject<Assets.Gridly.Internal.Scripts.GirldyView.View>(gridlyResponse);
-
-
-            foreach (Assets.Gridly.Internal.Scripts.GirldyView.Column column in gridlyView.columns)
+            if (!string.IsNullOrEmpty(viewID))
             {
-                if (column.type != null)
+
+                await GridlyFunctionEditor.getGridlyColumnIds(viewID);
+
+
+
+                Assets.Gridly.Internal.Scripts.GirldyView.View gridlyView = JsonConvert.DeserializeObject<Assets.Gridly.Internal.Scripts.GirldyView.View>(gridlyResponse);
+
+
+                foreach (Assets.Gridly.Internal.Scripts.GirldyView.Column column in gridlyView.columns)
                 {
-                    columns.Add(column.id);
+                    if (column.type != null)
+                    {
+                        columns.Add(column.id);
+                    }
                 }
+
+                listGridlyColumnIds = columns.ToArray();
+                //await Task.Yield();
             }
 
-            listGridlyColumnIds = columns.ToArray();
-            //await Task.Yield();
 
 
 
@@ -199,8 +205,15 @@ namespace Gridly.Internal
                 SettingWin();
             else if (mCurrentViewMode == eViewMode.Languages)
             {
-
-                LanguageWin();
+                if (Project.singleton.grids == null)
+                {
+                    Debug.LogError("You don't have any grids added to your project.");
+                    return;
+                }
+                else
+                {
+                    LanguageWin();
+                }
 
             }
 
@@ -210,6 +223,9 @@ namespace Gridly.Internal
 
         void SettingWin()
         {
+
+
+
             GUILayout.Label("Enter your API key here:", EditorStyles.boldLabel);
 
             EditorGUI.BeginChangeCheck();
@@ -256,7 +272,10 @@ namespace Gridly.Internal
                 GUILayout.EndHorizontal();
 
                 if (EditorGUI.EndChangeCheck())
+                {
                     Project.singleton.setDirty();
+                    InitWindow();
+                }
             }
 
             if (removeGrid != null) Project.singleton.grids.Remove(removeGrid);
@@ -330,150 +349,158 @@ namespace Gridly.Internal
         async void LanguageWin()
         {
 
-            int deleteIndex = -1;
 
+
+
+            int deleteIndex = -1;
             #region list Lang
             m_Scroll = GUILayout.BeginScrollView(m_Scroll, TextStyle, GUILayout.MinHeight(300), GUILayout.ExpandHeight(false));
-            SerializedObject serializedObject = new SerializedObject(Project.singleton);
-            SerializedProperty property = serializedObject.FindProperty("langSupports");
-            int selectedIndex = 0;
-            string columnIdSelect = "";
-            int columnIdSelectedIndex;
-
-            for (int i = 0; i < property.arraySize; i++)
+            if (listGridlyColumnIds != null)
             {
-                GUILayout.Space(2);
-                LangSupport langSupport = Project.singleton.langSupports[i];
-                GUILayout.BeginHorizontal();
+                SerializedObject serializedObject = new SerializedObject(Project.singleton);
+                SerializedProperty property = serializedObject.FindProperty("langSupports");
+                int selectedIndex = 0;
+                string columnIdSelect = "";
+                int columnIdSelectedIndex;
 
 
-                if (GUILayout.Button("X", "toolbarbutton"))
+                for (int i = 0; i < property.arraySize; i++)
                 {
-                    deleteIndex = i;
-                }
+                    GUILayout.Space(2);
+                    LangSupport langSupport = Project.singleton.langSupports[i];
+                    GUILayout.BeginHorizontal();
 
 
-                EditorGUI.BeginChangeCheck();
-                string name = langSupport.name;
-                int selectedIndexOfColumn = ArrayUtility.IndexOf(listGridlyColumnIds, langSupport.name);
-                selectedIndexOfColumn = EditorGUILayout.Popup(new GUIContent("Column ID in Gridly", "Select columnId from Gridly for this language."), selectedIndexOfColumn, listGridlyColumnIds);
-
-                if (GUILayout.Button(new GUIContent() { text = "Set source", tooltip = "Set this language as main language in editor" }))
-                {
-                    TermEditor.Refesh();
-                    TermEditor.RepaintThis();
-                    if (TermEditor.window != null)
-                        TermEditor.window.OnGUI();
-                    UserData.singleton.mainLangEditor = langSupport.languagesSuport;
-                    UserData.singleton.setDirty();
-                }
-
-                langSupport.languagesSuport = (Languages)EditorGUILayout.EnumPopup("Select Langauge", langSupport.languagesSuport);
-
-                if (EditorGUI.EndChangeCheck() && !string.IsNullOrEmpty(name))
-                {
-                    langSupport.name = listGridlyColumnIds[selectedIndexOfColumn];
-                    Project.singleton.setDirty();
-                }
-                GUILayout.EndHorizontal();
-
-
-
-
-                //font
-                SerializedProperty font = property.GetArrayElementAtIndex(i).FindPropertyRelative("font");
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(font, true);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    serializedObject.ApplyModifiedProperties();
-                }
-
-                SerializedProperty fontTM = property.GetArrayElementAtIndex(i).FindPropertyRelative("tmFont");
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(fontTM, true);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    serializedObject.ApplyModifiedProperties();
-                }
-
-
-                //screenshotColumn
-                EditorGUI.BeginChangeCheck();
-                GUILayout.BeginHorizontal();
-
-                if (ArrayUtility.IndexOf(listGridlyColumnIds, langSupport.screenshotColumnId) >= 0)
-                {
-                    selectedIndex = ArrayUtility.IndexOf(listGridlyColumnIds, langSupport.screenshotColumnId);
-                }
-                columnIdSelectedIndex = EditorGUILayout.Popup("Screenshot column ID", selectedIndex, listGridlyColumnIds);
-                columnIdSelect = listGridlyColumnIds[columnIdSelectedIndex];
-
-                if (GUILayout.Button(new GUIContent() { text = "Generate column", tooltip = "Generate column for screenshot" }))
-                {
-                    viewID = "";
-                    foreach (var view in Project.singleton.grids)
+                    if (GUILayout.Button("X", "toolbarbutton"))
                     {
-                        viewID = view.choesenViewID;
+                        deleteIndex = i;
                     }
 
 
-                    await GridlyFunctionEditor.createGridlyColumn(viewID, langSupport.name, "files", false, false);
-                    Project.singleton.setDirty();
-                    window.Close();
-                    InitWindow();
+                    EditorGUI.BeginChangeCheck();
+                    string name = langSupport.name;
+                    int selectedIndexOfColumn = ArrayUtility.IndexOf(listGridlyColumnIds, langSupport.name);
+                    selectedIndexOfColumn = EditorGUILayout.Popup(new GUIContent("Column ID in Gridly", "Select columnId from Gridly for this language."), selectedIndexOfColumn, listGridlyColumnIds);
 
-
-                }
-                if (EditorGUI.EndChangeCheck())
-                {
-                    langSupport.screenshotColumnId = columnIdSelect;
-                    //Refesh();
-                    Project.singleton.setDirty();
-                    return;
-                }
-
-                GUILayout.EndHorizontal();
-
-
-                GUILayout.Space(15);
-            }
-            GUILayout.EndScrollView();
-
-
-            string idToDelete = "";
-
-            if (deleteIndex != -1)
-            {
-
-                if (EditorUtility.DisplayDialog("Confirm delete", "Are you sure you want to delete the selected language", "Yes", "Cancel"))
-                {
-
-
-                    Languages langDelete = Project.singleton.langSupports[deleteIndex].languagesSuport;
-                    idToDelete = Project.singleton.langSupports[deleteIndex].name;
-                    foreach (var grid in Project.singleton.grids)
+                    if (GUILayout.Button(new GUIContent() { text = "Set source", tooltip = "Set this language as main language in editor" }))
                     {
-                        foreach (var i in grid.records)
+                        TermEditor.Refesh();
+                        TermEditor.RepaintThis();
+                        if (TermEditor.window != null)
+                            TermEditor.window.OnGUI();
+                        UserData.singleton.mainLangEditor = langSupport.languagesSuport;
+                        UserData.singleton.setDirty();
+                    }
+
+                    langSupport.languagesSuport = (Languages)EditorGUILayout.EnumPopup("Select Langauge", langSupport.languagesSuport);
+
+                    if (EditorGUI.EndChangeCheck() && !string.IsNullOrEmpty(name))
+                    {
+                        langSupport.name = listGridlyColumnIds[selectedIndexOfColumn];
+                        Project.singleton.setDirty();
+                    }
+                    GUILayout.EndHorizontal();
+
+
+
+
+                    //font
+                    SerializedProperty font = property.GetArrayElementAtIndex(i).FindPropertyRelative("font");
+                    EditorGUI.BeginChangeCheck();
+                    EditorGUILayout.PropertyField(font, true);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        serializedObject.ApplyModifiedProperties();
+                    }
+
+                    SerializedProperty fontTM = property.GetArrayElementAtIndex(i).FindPropertyRelative("tmFont");
+                    EditorGUI.BeginChangeCheck();
+                    EditorGUILayout.PropertyField(fontTM, true);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        serializedObject.ApplyModifiedProperties();
+                    }
+
+
+                    //screenshotColumn
+                    EditorGUI.BeginChangeCheck();
+                    GUILayout.BeginHorizontal();
+
+                    if (ArrayUtility.IndexOf(listGridlyColumnIds, langSupport.screenshotColumnId) >= 0)
+                    {
+                        selectedIndex = ArrayUtility.IndexOf(listGridlyColumnIds, langSupport.screenshotColumnId);
+                    }
+                    columnIdSelectedIndex = EditorGUILayout.Popup("Screenshot column ID", selectedIndex, listGridlyColumnIds);
+                    columnIdSelect = listGridlyColumnIds[columnIdSelectedIndex];
+
+                    if (GUILayout.Button(new GUIContent() { text = "Generate column", tooltip = "Generate column for screenshot" }))
+                    {
+                        viewID = "";
+                        foreach (var view in Project.singleton.grids)
                         {
-                            i.columns.RemoveAll(x => x.columnID == langDelete.ToString());
+                            viewID = view.choesenViewID;
                         }
+
+
+                        await GridlyFunctionEditor.createGridlyColumn(viewID, langSupport.name, "files", false, false);
+                        Project.singleton.setDirty();
+                        window.Close();
+                        InitWindow();
+
+
+                    }
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        langSupport.screenshotColumnId = columnIdSelect;
+                        //Refesh();
+                        Project.singleton.setDirty();
+                        return;
                     }
 
-                    Project.singleton.langSupports.RemoveAt(deleteIndex);
-                    Project.singleton.setDirty();
+                    GUILayout.EndHorizontal();
 
 
-
+                    GUILayout.Space(15);
                 }
-                if (EditorUtility.DisplayDialog("Confirm delete column from Gridly", "Are you sure you want to delete the selected column from Gridly", "Yes", "Cancel"))
+
+                GUILayout.EndScrollView();
+
+
+                string idToDelete = "";
+                if (listGridlyColumnIds != null)
                 {
-                    await GridlyFunctionEditor.deleteGridlyColumn(viewID, idToDelete);
-                    await GridlyFunctionEditor.deleteGridlyColumn(viewID, idToDelete + "_Screenshot");
+                    if (deleteIndex != -1)
+                    {
+
+                        if (EditorUtility.DisplayDialog("Confirm delete", "Are you sure you want to delete the selected language", "Yes", "Cancel"))
+                        {
+
+
+                            Languages langDelete = Project.singleton.langSupports[deleteIndex].languagesSuport;
+                            idToDelete = Project.singleton.langSupports[deleteIndex].name;
+                            foreach (var grid in Project.singleton.grids)
+                            {
+                                foreach (var i in grid.records)
+                                {
+                                    i.columns.RemoveAll(x => x.columnID == langDelete.ToString());
+                                }
+                            }
+
+                            Project.singleton.langSupports.RemoveAt(deleteIndex);
+                            Project.singleton.setDirty();
+
+
+
+                        }
+                        if (EditorUtility.DisplayDialog("Confirm delete column from Gridly", "Are you sure you want to delete the selected column from Gridly", "Yes", "Cancel"))
+                        {
+                            await GridlyFunctionEditor.deleteGridlyColumn(viewID, idToDelete);
+                            await GridlyFunctionEditor.deleteGridlyColumn(viewID, idToDelete + "_Screenshot");
+                        }
+
+                    }
                 }
-
             }
-
             #endregion
 
 
@@ -489,11 +516,13 @@ namespace Gridly.Internal
             if (GUILayout.Button("Add"))
             {
                 Languages language = (Languages)System.Enum.Parse(typeof(Languages), final[selectLang]);
-
-                //a void duplicate
-                foreach (var i in Project.singleton.langSupports)
-                    if (i.languagesSuport == language)
-                        return;
+                if (listGridlyColumnIds.Length > 0)
+                {
+                    //a void duplicate
+                    foreach (var i in Project.singleton.langSupports)
+                        if (i.languagesSuport == language)
+                            return;
+                }
 
                 var langSup = new LangSupport() { name = language.ToString(), languagesSuport = language };
                 Project.singleton.langSupports.Add(langSup);
@@ -518,7 +547,7 @@ namespace Gridly.Internal
             }
             GUILayout.EndHorizontal();
             #endregion
-            
+
         }
 
 

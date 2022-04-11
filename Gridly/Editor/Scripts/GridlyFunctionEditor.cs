@@ -27,33 +27,33 @@ namespace Gridly.Internal
 
         public static async Task getGridlyColumnIds(string viewID)
         {
-            Debug.Log("Getting columnIds from Gridly server.");
+            Debug.Log("Getting columnIds from Gridly server from view: " + viewID);
 
-
-            using (UnityWebRequest webRequest = UnityWebRequest.Get("https://api.gridly.com/v1/views/" + viewID))
-            {
-                webRequest.SetRequestHeader("Authorization", "ApiKey " + UserData.singleton.keyAPI);
-                // Request and wait for the desired page.
-                var req = webRequest.SendWebRequest();
-
-                var waitForOneSecond = new EditorWaitForSeconds(3.0f);
-
-                while (!req.isDone)
-                    await Task.Yield();
-
-                if (webRequest.result == UnityWebRequest.Result.Success)
+                using (UnityWebRequest webRequest = UnityWebRequest.Get("https://api.gridly.com/v1/views/" + viewID))
                 {
-                    GridlyEditor.gridlyResponse = webRequest.downloadHandler.text;
-                    Debug.Log("ColumnIds fetched from Gridly server!");
+                    webRequest.SetRequestHeader("Authorization", "ApiKey " + UserData.singleton.keyAPI);
+                    // Request and wait for the desired page.
+                    var req = webRequest.SendWebRequest();
+
+                    var waitForOneSecond = new EditorWaitForSeconds(3.0f);
+
+                    while (!req.isDone)
+                        await Task.Yield();
+
+                    if (webRequest.result == UnityWebRequest.Result.Success)
+                    {
+                        GridlyEditor.gridlyResponse = webRequest.downloadHandler.text;
+                        Debug.Log("ColumnIds fetched from Gridly server!");
+                    }
+                    else
+                    {
+                        Debug.Log(webRequest.error);
+                    }
+
+
+
                 }
-                else
-                {
-                    Debug.Log(webRequest.error);
-                }
 
-
-
-            }
 
 
 

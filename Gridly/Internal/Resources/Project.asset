@@ -15,95 +15,10 @@ MonoBehaviour:
   ProjectID: 
   grids:
   - databaseID: 
-    nameGrid: 
+    nameGrid: locGame
     gridID: 
-    choesenViewID: 
-    records:
-    - recordID: btn_play
-      columns:
-      - columnID: enUS
-        text: Play
-      - columnID: enUS_Screenshot
-        text: 
-      - columnID: deDE
-        text: Abspielen
-      - columnID: deDE_Screenshot
-        text: 
-      - columnID: plPL
-        text: "bawi\u0107 si\u0119"
-      - columnID: plPL_Screenshot
-        text: 
-      - columnID: ptBR_Screenshot
-        text: 
-      pathTag: MainScene
-    - recordID: btn_settings
-      columns:
-      - columnID: enUS
-        text: Settings3
-      - columnID: enUS_Screenshot
-        text: 
-      - columnID: deDE
-        text: Einstellungen
-      - columnID: deDE_Screenshot
-        text: 
-      - columnID: plPL
-        text: ustawienia
-      - columnID: plPL_Screenshot
-        text: 
-      - columnID: ptBR_Screenshot
-        text: 
-      pathTag: MainScene
-    - recordID: btn_exit
-      columns:
-      - columnID: enUS
-        text: Exit
-      - columnID: enUS_Screenshot
-        text: 
-      - columnID: deDE
-        text: Ausgang
-      - columnID: deDE_Screenshot
-        text: 
-      - columnID: plPL
-        text: "Wyj\u015Bcie"
-      - columnID: plPL_Screenshot
-        text: 
-      - columnID: ptBR_Screenshot
-        text: 
-      pathTag: MainScene
-    - recordID: btn_back
-      columns:
-      - columnID: enUS
-        text: Back
-      - columnID: enUS_Screenshot
-        text: 
-      - columnID: deDE
-        text: "Zur\xFCckb"
-      - columnID: deDE_Screenshot
-        text: 
-      - columnID: plPL
-        text: plecy
-      - columnID: plPL_Screenshot
-        text: 
-      - columnID: ptBR_Screenshot
-        text: 
-      pathTag: SettingsScene
-    - recordID: btn_peak
-      columns:
-      - columnID: enUS
-        text: Peak
-      - columnID: enUS_Screenshot
-        text: 
-      - columnID: deDE
-        text: 
-      - columnID: deDE_Screenshot
-        text: 
-      - columnID: plPL
-        text: 
-      - columnID: plPL_Screenshot
-        text: 
-      - columnID: ptBR_Screenshot
-        text: 
-      pathTag: MainScene
+    choesenViewID: 4589nn4wyvpjqmn
+    records: []
   langSupports:
   - languagesSuport: 0
     name: enUS
@@ -127,7 +42,8 @@ MonoBehaviour:
     tmFont: {fileID: 0}
   LangsToTakeScreenshotList:
   - ptBR
-  LastSelectedLangIndexToAdd: 3
+  - plPL
+  LastSelectedLangIndexToAdd: 2
   LastSelectedLangIndexToRemove: 0
   DataToSend:
   - Source text
