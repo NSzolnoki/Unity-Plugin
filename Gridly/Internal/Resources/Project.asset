@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c6a5787bc83e242a02426d8fdda104, type: 3}
+  m_Name: Project
+  m_EditorClassIdentifier: 
+  ProjectID: 
+  grids:
+  - databaseID: 
+    nameGrid: 
+    gridID: 
+    choesenViewID: 
+    records:
+    - recordID: btn_play
+      columns:
+      - columnID: enUS
+        text: Play
+      - columnID: enUS_Screenshot
+        text: 
+      - columnID: deDE
+        text: Abspielen
+      - columnID: deDE_Screenshot
+        text: 
+      - columnID: plPL
+        text: "bawi\u0107 si\u0119"
+      - columnID: plPL_Screenshot
+        text: 
+      - columnID: ptBR_Screenshot
+        text: 
+      pathTag: MainScene
+    - recordID: btn_settings
+      columns:
+      - columnID: enUS
+        text: Settings3
+      - columnID: enUS_Screenshot
+        text: 
+      - columnID: deDE
+        text: Einstellungen
+      - columnID: deDE_Screenshot
+        text: 
+      - columnID: plPL
+        text: ustawienia
+      - columnID: plPL_Screenshot
+        text: 
+      - columnID: ptBR_Screenshot
+        text: 
+      pathTag: MainScene
+    - recordID: btn_exit
+      columns:
+      - columnID: enUS
+        text: Exit
+      - columnID: enUS_Screenshot
+        text: 
+      - columnID: deDE
+        text: Ausgang
+      - columnID: deDE_Screenshot
+        text: 
+      - columnID: plPL
+        text: "Wyj\u015Bcie"
+      - columnID: plPL_Screenshot
+        text: 
+      - columnID: ptBR_Screenshot
+        text: 
+      pathTag: MainScene
+    - recordID: btn_back
+      columns:
+      - columnID: enUS
+        text: Back
+      - columnID: enUS_Screenshot
+        text: 
+      - columnID: deDE
+        text: "Zur\xFCckb"
+      - columnID: deDE_Screenshot
+        text: 
+      - columnID: plPL
+        text: plecy
+      - columnID: plPL_Screenshot
+        text: 
+      - columnID: ptBR_Screenshot
+        text: 
+      pathTag: SettingsScene
+    - recordID: btn_peak
+      columns:
+      - columnID: enUS
+        text: Peak
+      - columnID: enUS_Screenshot
+        text: 
+      - columnID: deDE
+        text: 
+      - columnID: deDE_Screenshot
+        text: 
+      - columnID: plPL
+        text: 
+      - columnID: plPL_Screenshot
+        text: 
+      - columnID: ptBR_Screenshot
+        text: 
+      pathTag: MainScene
+  langSupports:
+  - languagesSuport: 0
+    name: enUS
+    screenshotColumnId: enUS_Screenshot
+    font: {fileID: 0}
+    tmFont: {fileID: 0}
+  - languagesSuport: 5
+    name: deDE
+    screenshotColumnId: deDE_Screenshot
+    font: {fileID: 0}
+    tmFont: {fileID: 0}
+  - languagesSuport: 9
+    name: plPL
+    screenshotColumnId: plPL_Screenshot
+    font: {fileID: 0}
+    tmFont: {fileID: 0}
+  - languagesSuport: 10
+    name: ptBR
+    screenshotColumnId: 
+    font: {fileID: 0}
+    tmFont: {fileID: 0}
+  LangsToTakeScreenshotList:
+  - ptBR
+  LastSelectedLangIndexToAdd: 3
+  LastSelectedLangIndexToRemove: 0
+  DataToSend:
+  - Source text
+  - Source text and screenshots
+  - enUS
+  - deDE
+  - plPL
+  - ptBR
+  DataToSendSelectedItems:
+  - deAT
+  - plPL
+  - ptBR
+  - arAE
+  - cyGB
+  - enAU
+  - azAZ
+  - arKW
+  - enCA
+  - enZA
+  - arIQ
+  - bsBA
+  - csCZ
+  - deDE
+  SendIfChanged: 0
