@@ -1,5 +1,5 @@
 # GRIDLY PLUGIN
-### 1. What this plugin can do
+### 1. What does this plugin do?
 This Plugin can help you sync data between Unity and Gridly.   
 By using the path you can get the string data based on the
 target language.
