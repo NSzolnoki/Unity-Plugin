@@ -33,7 +33,7 @@ First you need to open the Gridly setting window by going to:
 </p>  
 Here you have to enter your API key and define the folder where you store or you will store the screenshots that generated about your game.  
 <p align="center" width="100%">
-    <img width="50%" src="resources/setup_setting_mw.png">
+    <img width="33%" src="resources/setup_setting_mw.png">
 </p>  
 You can find your API key in Gridly at the following place on the right pane:
   
@@ -43,24 +43,24 @@ You can find your API key in Gridly at the following place on the right pane:
 By default the plugin adds two views, but those are dummies, so feel free to delete or change their name and viewID.  
 You can add new view by clicking on the plus icon  
 <p align="center" width="100%">
-    <img width="50%" src="resources/add_new_view.png">
+    <img width="33%" src="resources/add_new_view.png">
 </p>  
 
 ### 3.2 Maintain languages in the plugin
 * You can add a language by select a language from the list and click on "Add" button, by adding a language to your project, it creates the column for this language in Gridly  
 <p align="center" width="100%">
-    <img width="50%" src="resources/lang_selectLang.png">
+    <img width="33%" src="resources/lang_selectLang.png">
 </p>  
 
 * You can remove the language by clicking on its "X" button. On deleting a language, you will get two dialog. The first will ask you to remove the language from Unity, and the second will ask you about to delete the language column and the screenshot column of this language.  
 <p align="center" width="100%">
-    <img width="50%" src="resources/lang_deleteLang.png">
+    <img width="33%" src="resources/lang_deleteLang.png">
 </p>   
 
 * You can select that what type of font you would like to use on showing the strings in your game by setting the "Font" or the "TmFont" which is stands for the Text Mesh Pro.
 * You can select the column what you would like to use in Gridly for storing the images from the given language by clik on the dropdown menu next to the "Screenshot column ID", or if you don't have any, you can create on by clicking on the "Generate column", this button creates a "files" type column in Gridly, then you can select this column ID from the list.  
 <p align="center" width="100%">
-    <img width="50%" src="resources/langScreenshotColId.png">
+    <img width="33%" src="resources/langScreenshotColId.png">
 </p>    
 
 * You can change your project source language by clicking on the "Set source" button.
